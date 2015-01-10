@@ -3,7 +3,9 @@ package com.tedneward.example;
 import java.beans.*;
 import java.util.*;
 
-public class Person {
+public class Person 
+    implements Comparable<Person>
+{
     private int age;
     private String name;
     private double salary;
@@ -12,95 +14,121 @@ public class Person {
     private static int COUNT = 0;
     
     public Person() {
-      this("", 0, 0.0d);
+        this("", 0, 0.0d);
     }
     
     public Person(String n, int a, double s) {
-      name = n;
-      age = a;
-      salary = s;
+        name = n;
+        age = a;
+        salary = s;
 
-      COUNT++;
+        COUNT++;
+    }
+
+    public static class AgeComparator implements Comparator<Person> {
+        public int compare(Person a, Person b) {
+            return a.age - b.age;
+        }
     }
 
 /*
 Getters: age, name, salary, SSN, COUNT
 */
     public int getAge() {
-      return age;
+        return age;
     }
     
     public String getName() {
-      return name;
+        return name;
     }
     
     public double getSalary() {
-      return salary;
+        return salary;
     }
     
     public String getSSN() {
-      return ssn;
+        return ssn;
     }
 
     public int count() {
-      return COUNT;
+        return COUNT;
     }
 
 /*
 Setters: age, name, salary, SSN
 */
     public void setAge(int n) {
-      if (n >= 0) {
+        if (n >= 0) {
         this.age = n;
-      } else {
+        } else {
         throw new IllegalArgumentException("Age cannot be less than 0");
-      }
+        }
     }
 
     public void setName(String n) {
-      if (n != null) {
+        if (n != null) {
         this.name = n;
-      } else {
+        } else {
         throw new IllegalArgumentException("Null is not a valid name");
-      }
+        }
     }
 
-    public void setSalary(int n) {
-      this.salary = n;
+    public void setSalary(double n) {
+        this.salary = n;
     }
 
     public void setSSN(String value) {
-      String old = ssn;
-      ssn = value;
-      
-      this.pcs.firePropertyChange("ssn", old, value);
-      propertyChangeFired = true;
+        String old = ssn;
+        ssn = value;
+
+        this.pcs.firePropertyChange("ssn", old, value);
+        propertyChangeFired = true;
     }
 
     
 
     public boolean getPropertyChangeFired() {
-      return propertyChangeFired;
+        return propertyChangeFired;
     }
 
     public double calculateBonus() {
-      return salary * 1.10;
+        return salary * 1.10;
     }
     
     public String becomeJudge() {
-      return "The Honorable " + name;
+        return "The Honorable " + name;
     }
     
     public int timeWarp() {
-      return age + 10;
+        return age + 10;
     }
     
-    public boolean equals(Person other) {
-      return (this.name.equals(other.name) && this.age == other.age);
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Person) {
+            Person o = (Person) other;
+            return (this.name.equals(o.name) && this.age == o.age);
+        }
+        return false;
     }
 
+    @Override
+    public int compareTo(Person other) {
+        return (int) (this.salary - other.salary) * -1;
+    }
+
+    @Override
     public String toString() {
-      return "{{FIXME}}";
+        return "[Person name:" + this.name + " age:" + this.age + " salary:" + this.salary + "]";
+    }
+
+    public static ArrayList getNewardFamily() {
+        ArrayList<Person> family = new ArrayList<Person>();
+        family.add(new Person("Ted", 41, 250000));
+        family.add(new Person("Charlotte", 43, 150000));
+        family.add(new Person("Michael", 22, 10000));
+        family.add(new Person("Matthew", 15, 0));
+        return family;
     }
 
     // PropertyChangeListener support; you shouldn't need to change any of
