@@ -115,7 +115,7 @@ Setters: age, name, salary, SSN
 
     @Override
     public int compareTo(Person other) {
-        return (int) (this.salary - other.salary) * -1;
+        return (int) (other.salary - this.salary);
     }
 
     @Override
