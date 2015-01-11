@@ -22,6 +22,7 @@ public class Person
         age = a;
         salary = s;
 
+        ssn = "";
         COUNT++;
     }
 
@@ -59,17 +60,17 @@ Setters: age, name, salary, SSN
 */
     public void setAge(int n) {
         if (n >= 0) {
-        this.age = n;
+            this.age = n;
         } else {
-        throw new IllegalArgumentException("Age cannot be less than 0");
+            throw new IllegalArgumentException("Age cannot be less than 0");
         }
     }
 
     public void setName(String n) {
         if (n != null) {
-        this.name = n;
+            this.name = n;
         } else {
-        throw new IllegalArgumentException("Null is not a valid name");
+            throw new IllegalArgumentException("Null is not a valid name");
         }
     }
 
